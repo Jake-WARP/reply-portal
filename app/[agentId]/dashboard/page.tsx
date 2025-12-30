@@ -4,12 +4,14 @@ interface PageProps {
   };
 }
 
-export default function DashboardPage({ params }: PageProps) {
+export default async function DashboardPage({ params }: PageProps) {
+  const { agentId } = await params;
+
   return (
     <section className="space-y-2 text-zinc-900">
-      <h1>Agent {params.agentId} Dashboard</h1>
+      <h1 className="text-xl font-bold">Dashboard</h1>
       <p className="text-sm text-zinc-600">
-        Dashboardpagina voor agent {params.agentId}.
+        Overzicht voor agent {agentId}.
       </p>
     </section>
   );
