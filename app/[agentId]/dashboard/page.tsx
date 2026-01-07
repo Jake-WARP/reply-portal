@@ -4,8 +4,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import DashboardCharts from "@/components/dashboard-charts";
 import {
   dashboardDataByAgent,
+  dashboardChartsByAgent,
+  fallbackDashboardCharts,
   fallbackDashboardMetrics,
 } from "@/data/dashboard";
 
@@ -21,9 +24,37 @@ const deltaToneStyles = {
   neutral: "text-zinc-600",
 } as const;
 
+function metricValueNumber(value: string) {
+  const normalized = value.replace(",", ".").replace(/[^\d.]/g, "");
+  const parsed = Number.parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export default async function DashboardPage({ params }: PageProps) {
   const { agentId } = await params;
   const metrics = dashboardDataByAgent[agentId] ?? fallbackDashboardMetrics;
+  const charts = dashboardChartsByAgent[agentId] ?? fallbackDashboardCharts;
+  const metricMap = Object.fromEntries(
+    metrics.map((metric) => [metric.id, metricValueNumber(metric.value)])
+  );
+  const alignedCharts = {
+    ...charts,
+    cpu: [...charts.cpu],
+    memory: [...charts.memory],
+    requests: [...charts.requests],
+  };
+  if (alignedCharts.cpu.length > 0) {
+    alignedCharts.cpu[alignedCharts.cpu.length - 1] =
+      metricMap.cpu ?? alignedCharts.cpu[alignedCharts.cpu.length - 1];
+  }
+  if (alignedCharts.memory.length > 0) {
+    alignedCharts.memory[alignedCharts.memory.length - 1] =
+      metricMap.memory ?? alignedCharts.memory[alignedCharts.memory.length - 1];
+  }
+  if (alignedCharts.requests.length > 0) {
+    alignedCharts.requests[alignedCharts.requests.length - 1] =
+      metricMap.requests ?? alignedCharts.requests[alignedCharts.requests.length - 1];
+  }
 
   return (
     <section className="space-y-6 text-zinc-900">
@@ -54,6 +85,7 @@ export default async function DashboardPage({ params }: PageProps) {
           </Card>
         ))}
       </div>
+      <DashboardCharts charts={alignedCharts} />
     </section>
   );
 }
