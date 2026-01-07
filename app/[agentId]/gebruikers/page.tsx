@@ -15,7 +15,7 @@ export default async function UserPage({ params }: PageProps) {
     <section className="space-y-6 text-zinc-900">
       <h1 className="text-xl font-bold">Gebruikers</h1>
       <p className="text-sm text-zinc-600">
-        Gebruikerspagina voor agent {agentId}.
+        Gebruikers voor {agentId}.
       </p>
       <UserTable users={users} />
     </section>

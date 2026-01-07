@@ -1,56 +1,48 @@
 "use client";
 
-import { useMemo } from "react";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef,
-} from "material-react-table";
-
 import type { UserRow } from "@/data/users";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type UserTableProps = {
   users: UserRow[];
 };
 
 export default function UserTable({ users }: UserTableProps) {
-  const columns = useMemo<MRT_ColumnDef<UserRow>[]>(
-    () => [
-      {
-        accessorKey: "name",
-        header: "Naam",
-        size: 180,
-      },
-      {
-        accessorKey: "email",
-        header: "E-mail",
-        size: 220,
-      },
-      {
-        accessorKey: "lastActiveRaw",
-        header: "Laatst actief",
-        sortingFn: "datetime",
-        accessorFn: (row) => row.lastActiveRaw,
-        Cell: ({ row }) => row.original.lastActiveLabel,
-        size: 150,
-      },
-    ],
-    []
+  return (
+    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Naam</TableHead>
+            <TableHead>E-mail</TableHead>
+            <TableHead>Laatst actief</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {users.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={3} className="py-6 text-center text-zinc-500">
+                Geen gebruikers gevonden.
+              </TableCell>
+            </TableRow>
+          ) : (
+            users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.lastActiveLabel}</TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
-
-  const data = useMemo(() => users, [users]);
-
-  const table = useMaterialReactTable({
-    columns,
-    data,
-    muiTablePaperProps: {
-      elevation: 0,
-      sx: {
-        borderRadius: "10px",
-        border: "1px solid #e4e4e7",
-      },
-    },
-  });
-
-  return <MaterialReactTable table={table} />;
 }
