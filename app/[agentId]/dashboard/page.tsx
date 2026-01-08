@@ -8,7 +8,9 @@ import DashboardCharts from "@/components/dashboard-charts";
 import {
   dashboardDataByAgent,
   dashboardChartsByAgent,
+  dashboardInsightsByAgent,
   fallbackDashboardCharts,
+  fallbackDashboardInsights,
   fallbackDashboardMetrics,
 } from "@/data/dashboard";
 
@@ -34,6 +36,8 @@ export default async function DashboardPage({ params }: PageProps) {
   const { agentId } = await params;
   const metrics = dashboardDataByAgent[agentId] ?? fallbackDashboardMetrics;
   const charts = dashboardChartsByAgent[agentId] ?? fallbackDashboardCharts;
+  const insights =
+    dashboardInsightsByAgent[agentId] ?? fallbackDashboardInsights;
   const metricMap = Object.fromEntries(
     metrics.map((metric) => [metric.id, metricValueNumber(metric.value)])
   );
@@ -85,7 +89,7 @@ export default async function DashboardPage({ params }: PageProps) {
           </Card>
         ))}
       </div>
-      <DashboardCharts charts={alignedCharts} />
+      <DashboardCharts charts={alignedCharts} insights={insights} />
     </section>
   );
 }

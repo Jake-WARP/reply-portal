@@ -1,50 +1,49 @@
 "use client";
 
+import { useMemo } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
+
 import type { DocumentRow } from "@/data/documents";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import DataTable from "@/components/data-table";
 
 type DocumentTableProps = {
   documents: DocumentRow[];
 };
 
 export default function DocumentTable({ documents }: DocumentTableProps) {
+  const columns = useMemo<ColumnDef<DocumentRow>[]>(
+    () => [
+      {
+        accessorKey: "title",
+        header: "Naam",
+        cell: ({ row }) => (
+          <span className="font-medium">{row.original.title}</span>
+        ),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+      },
+      {
+        accessorKey: "owner",
+        header: "Bewerker",
+      },
+      {
+        accessorKey: "lastUpdatedRaw",
+        header: "Laatst bewerkt",
+        cell: ({ row }) => row.original.lastUpdatedLabel,
+        sortingFn: "datetime",
+      },
+    ],
+    []
+  );
+
   return (
-    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Naam</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Bewerker</TableHead>
-            <TableHead>Laatst bewerkt</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {documents.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={4} className="py-6 text-center text-zinc-500">
-                Geen documenten gevonden.
-              </TableCell>
-            </TableRow>
-          ) : (
-            documents.map((document) => (
-              <TableRow key={document.id}>
-                <TableCell className="font-medium">{document.title}</TableCell>
-                <TableCell>{document.status}</TableCell>
-                <TableCell>{document.owner}</TableCell>
-                <TableCell>{document.lastUpdatedLabel}</TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <DataTable
+      columns={columns}
+      data={documents}
+      searchPlaceholder="Zoeken naar documenten..."
+      emptyLabel="Geen documenten gevonden."
+    />
   );
 }

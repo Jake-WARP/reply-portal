@@ -40,7 +40,7 @@ export default async function AgentLayout({ children, params }: LayoutProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-[90rem] px-6 py-8">{children}</main>
     </div>
   );
 }

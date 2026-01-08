@@ -13,6 +13,31 @@ export type DashboardCharts = {
   requests: number[];
 };
 
+export type TokenSpendRow = {
+  id: string;
+  month: string;
+  tokens: number;
+  cost: number;
+};
+
+export type TokenSpendSummary = {
+  totalTokens: number;
+  totalCost: number;
+};
+
+export type ErrorLogItem = {
+  id: string;
+  level: "error" | "warning" | "info";
+  title: string;
+  meta: string;
+};
+
+export type DashboardInsights = {
+  tokenSummary: TokenSpendSummary;
+  tokenRows: TokenSpendRow[];
+  errorLog: ErrorLogItem[];
+};
+
 export const dashboardDataByAgent: Record<string, DashboardMetric[]> = {
   bumperbuddy: [
     {
@@ -141,6 +166,101 @@ export const dashboardChartsByAgent: Record<string, DashboardCharts> = {
   },
 };
 
+export const dashboardInsightsByAgent: Record<string, DashboardInsights> = {
+  bumperbuddy: {
+    tokenSummary: {
+      totalTokens: 312000,
+      totalCost: 21.4,
+    },
+    tokenRows: [
+      { id: "bb-jan", month: "Jan", tokens: 142000, cost: 11.1 },
+      { id: "bb-feb", month: "Feb", tokens: 98000, cost: 7.7 },
+      { id: "bb-mrt", month: "Mrt", tokens: 186000, cost: 14.6 },
+      { id: "bb-apr", month: "Apr", tokens: 224000, cost: 18.2 },
+      { id: "bb-mei", month: "Mei", tokens: 205000, cost: 16.4 },
+      { id: "bb-jun", month: "Jun", tokens: 312000, cost: 21.4 },
+    ],
+    errorLog: [
+      {
+        id: "bb-err-1",
+        level: "error",
+        title: "API timeout bij document verwerking",
+        meta: "2 min geleden • 3x voorgekomen",
+      },
+      {
+        id: "bb-warn-1",
+        level: "warning",
+        title: "Hoge responstijd gedetecteerd (>2s)",
+        meta: "15 min geleden • 8x voorgekomen",
+      },
+      {
+        id: "bb-err-2",
+        level: "error",
+        title: "Authenticatie mislukt voor gebruiker",
+        meta: "1 uur geleden • 1x voorgekomen",
+      },
+      {
+        id: "bb-warn-2",
+        level: "warning",
+        title: "Geheugengebruik boven 80%",
+        meta: "2 uur geleden • 5x voorgekomen",
+      },
+      {
+        id: "bb-info-1",
+        level: "info",
+        title: "Automatische backup voltooid",
+        meta: "3 uur geleden • 1x voorgekomen",
+      },
+    ],
+  },
+  fietsfix: {
+    tokenSummary: {
+      totalTokens: 186000,
+      totalCost: 12.3,
+    },
+    tokenRows: [
+      { id: "ff-jan", month: "Jan", tokens: 82000, cost: 6.4 },
+      { id: "ff-feb", month: "Feb", tokens: 76000, cost: 5.9 },
+      { id: "ff-mrt", month: "Mrt", tokens: 112000, cost: 8.6 },
+      { id: "ff-apr", month: "Apr", tokens: 134000, cost: 10.2 },
+      { id: "ff-mei", month: "Mei", tokens: 158000, cost: 11.8 },
+      { id: "ff-jun", month: "Jun", tokens: 186000, cost: 12.3 },
+    ],
+    errorLog: [
+      {
+        id: "ff-err-1",
+        level: "error",
+        title: "API timeout bij document verwerking",
+        meta: "2 min geleden • 3x voorgekomen",
+      },
+      {
+        id: "ff-warn-1",
+        level: "warning",
+        title: "Hoge responstijd gedetecteerd (>2s)",
+        meta: "15 min geleden • 8x voorgekomen",
+      },
+      {
+        id: "ff-err-2",
+        level: "error",
+        title: "Authenticatie mislukt voor gebruiker",
+        meta: "1 uur geleden • 1x voorgekomen",
+      },
+      {
+        id: "ff-warn-2",
+        level: "warning",
+        title: "Geheugengebruik boven 80%",
+        meta: "2 uur geleden • 5x voorgekomen",
+      },
+      {
+        id: "ff-info-1",
+        level: "info",
+        title: "Automatische backup voltooid",
+        meta: "3 uur geleden • 1x voorgekomen",
+      },
+    ],
+  },
+};
+
 export const fallbackDashboardMetrics: DashboardMetric[] = [
   {
     id: "cpu",
@@ -202,4 +322,51 @@ export const fallbackDashboardCharts: DashboardCharts = {
   cpu: [22, 21, 20, 19, 20, 24, 29, 33, 36, 40, 43, 45, 46, 44, 42, 40, 37, 35, 32, 30, 28, 27, 26, 25],
   memory: [48, 47, 46, 45, 44, 46, 49, 52, 56, 59, 62, 64, 66, 65, 63, 61, 59, 57, 55, 53, 52, 51, 50, 49],
   requests: [140, 130, 120, 110, 105, 120, 150, 200, 260, 320, 360, 400, 420, 410, 390, 360, 330, 300, 260, 230, 210, 190, 170, 160],
+};
+
+export const fallbackDashboardInsights: DashboardInsights = {
+  tokenSummary: {
+    totalTokens: 154000,
+    totalCost: 10.4,
+  },
+  tokenRows: [
+    { id: "fb-jan", month: "Jan", tokens: 72000, cost: 5.6 },
+    { id: "fb-feb", month: "Feb", tokens: 69000, cost: 5.4 },
+    { id: "fb-mrt", month: "Mrt", tokens: 98000, cost: 7.6 },
+    { id: "fb-apr", month: "Apr", tokens: 112000, cost: 8.6 },
+    { id: "fb-mei", month: "Mei", tokens: 136000, cost: 9.8 },
+    { id: "fb-jun", month: "Jun", tokens: 154000, cost: 10.4 },
+  ],
+  errorLog: [
+    {
+      id: "fb-err-1",
+      level: "error",
+      title: "API timeout bij document verwerking",
+      meta: "2 min geleden • 3x voorgekomen",
+    },
+    {
+      id: "fb-warn-1",
+      level: "warning",
+      title: "Hoge responstijd gedetecteerd (>2s)",
+      meta: "15 min geleden • 8x voorgekomen",
+    },
+    {
+      id: "fb-err-2",
+      level: "error",
+      title: "Authenticatie mislukt voor gebruiker",
+      meta: "1 uur geleden • 1x voorgekomen",
+    },
+    {
+      id: "fb-warn-2",
+      level: "warning",
+      title: "Geheugengebruik boven 80%",
+      meta: "2 uur geleden • 5x voorgekomen",
+    },
+    {
+      id: "fb-info-1",
+      level: "info",
+      title: "Automatische backup voltooid",
+      meta: "3 uur geleden • 1x voorgekomen",
+    },
+  ],
 };

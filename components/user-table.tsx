@@ -1,48 +1,45 @@
 "use client";
 
+import { useMemo } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
+
+import DataTable from "@/components/data-table";
 import type { UserRow } from "@/data/users";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 type UserTableProps = {
   users: UserRow[];
 };
 
 export default function UserTable({ users }: UserTableProps) {
+  const columns = useMemo<ColumnDef<UserRow>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Naam",
+        cell: ({ row }) => (
+          <span className="font-medium">{row.original.name}</span>
+        ),
+      },
+      {
+        accessorKey: "email",
+        header: "E-mail",
+      },
+      {
+        accessorKey: "lastActiveRaw",
+        header: "Laatst actief",
+        cell: ({ row }) => row.original.lastActiveLabel,
+        sortingFn: "datetime",
+      },
+    ],
+    []
+  );
+
   return (
-    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Naam</TableHead>
-            <TableHead>E-mail</TableHead>
-            <TableHead>Laatst actief</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={3} className="py-6 text-center text-zinc-500">
-                Geen gebruikers gevonden.
-              </TableCell>
-            </TableRow>
-          ) : (
-            users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.lastActiveLabel}</TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <DataTable
+      columns={columns}
+      data={users}
+      searchPlaceholder="Zoeken naar gebruikers..."
+      emptyLabel="Geen gebruikers gevonden."
+    />
   );
 }
