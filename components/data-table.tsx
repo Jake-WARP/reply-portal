@@ -26,6 +26,7 @@ type DataTableProps<TData, TValue> = {
   data: TData[];
   searchPlaceholder?: string;
   emptyLabel?: string;
+  toolbarContent?: React.ReactNode;
 };
 
 export default function DataTable<TData, TValue>({
@@ -33,6 +34,7 @@ export default function DataTable<TData, TValue>({
   data,
   searchPlaceholder = "Zoeken...",
   emptyLabel = "Geen resultaten gevonden.",
+  toolbarContent,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -50,13 +52,14 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Input
           value={globalFilter ?? ""}
           onChange={(event) => setGlobalFilter(event.target.value)}
           placeholder={searchPlaceholder}
           className="h-10 max-w-sm rounded-full border border-zinc-200 bg-white px-4"
         />
+        {toolbarContent ? <div>{toolbarContent}</div> : null}
       </div>
       <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
         <Table>
