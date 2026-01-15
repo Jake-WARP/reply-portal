@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-table";
 
 import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -54,12 +55,18 @@ export default function DataTable<TData, TValue>({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Input
-          value={globalFilter ?? ""}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          placeholder={searchPlaceholder}
-          className="h-10 max-w-sm rounded-full border border-zinc-200 bg-white px-4"
-        />
+        <div className="relative w-full max-w-sm">
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
+            aria-hidden="true"
+          />
+          <Input
+            value={globalFilter ?? ""}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            placeholder={searchPlaceholder}
+            className="h-10 w-full rounded-[10px] border border-zinc-200 bg-[#F1F1F1] pl-9 pr-4"
+          />
+        </div>
         {toolbarContent ? <div>{toolbarContent}</div> : null}
       </div>
       <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">

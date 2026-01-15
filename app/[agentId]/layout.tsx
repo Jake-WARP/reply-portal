@@ -1,12 +1,8 @@
 import AgentDropdown from "@/components/agent-dropdown";
 import AgentNav from "@/components/agent-nav";
 import ProfileMenu from "@/components/profile-menu";
+import { agents } from "@/data/agents";
 import Link from "next/link";
-
-const agents = [
-  { id: "bumperbuddy", label: "BumperBuddy" },
-  { id: "fietsfix", label: "FietsFix" },
-];
 
 const pageLinks = [
   { slug: "dashboard", label: "Dashboard" },
