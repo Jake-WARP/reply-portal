@@ -6,6 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { DocumentRow } from "@/data/documents";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
+import { Upload } from "lucide-react";
 
 type DocumentTableProps = {
   documents: DocumentRow[];
@@ -107,8 +108,13 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
               className="hidden"
               onChange={handleFileChange}
             />
-            <Button type="button" onClick={handleUploadClick}>
-              Document(en) uploaden
+            <Button
+              type="button"
+              className="gap-2 text-sm font-semibold text-white"
+              onClick={handleUploadClick}
+            >
+              <Upload className="h-4 w-4" aria-hidden="true" />
+              Uploaden
             </Button>
           </>
         }

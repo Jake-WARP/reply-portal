@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -79,8 +80,18 @@ export default function DataTable<TData, TValue>({
                           header.getContext()
                         )}
                         {{
-                          asc: "▲",
-                          desc: "▼",
+                          asc: (
+                            <ChevronUp
+                              className="h-3.5 w-3.5"
+                              aria-hidden="true"
+                            />
+                          ),
+                          desc: (
+                            <ChevronDown
+                              className="h-3.5 w-3.5"
+                              aria-hidden="true"
+                            />
+                          ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </button>
                     )}

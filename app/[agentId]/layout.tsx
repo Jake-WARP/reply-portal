@@ -1,5 +1,6 @@
 import AgentDropdown from "@/components/agent-dropdown";
 import AgentNav from "@/components/agent-nav";
+import ProfileMenu from "@/components/profile-menu";
 import Link from "next/link";
 
 const agents = [
@@ -37,6 +38,7 @@ export default async function AgentLayout({ children, params }: LayoutProps) {
             <AgentDropdown agents={agents} currentAgent={currentAgent} />
             <AgentNav pageLinks={pageLinks} currentAgent={currentAgent} />
           </div>
+          <ProfileMenu />
         </div>
       </header>
 
