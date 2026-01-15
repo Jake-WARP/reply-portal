@@ -17,7 +17,7 @@ export default function UserTable({ users }: UserTableProps) {
         accessorKey: "name",
         header: "Naam",
         cell: ({ row }) => (
-          <span className="font-medium">{row.original.name}</span>
+          <span>{row.original.name}</span>
         ),
       },
       {

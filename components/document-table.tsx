@@ -28,7 +28,7 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
         accessorKey: "title",
         header: "Naam",
         cell: ({ row }) => (
-          <span className="font-medium">{row.original.title}</span>
+          <span>{row.original.title}</span>
         ),
       },
       {
