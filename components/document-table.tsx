@@ -113,7 +113,7 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
               className="gap-2 text-sm font-semibold text-white"
               onClick={handleUploadClick}
             >
-              <Upload className="h-4 w-4" aria-hidden="true" />
+              <Upload className="size-5" aria-hidden="true" />
               Uploaden
             </Button>
           </>

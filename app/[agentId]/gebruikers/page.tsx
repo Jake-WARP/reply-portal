@@ -14,7 +14,7 @@ export default async function UserPage({ params }: PageProps) {
   const agentLabel = agentLabelById[agentId] ?? agentId;
 
   return (
-    <section className="space-y-6 text-zinc-900">
+    <section className="space-y-2 text-zinc-900">
       <h1 className="text-xl font-bold">Gebruikers</h1>
       <p className="text-sm text-zinc-600">
         Gebruikers voor {agentLabel} - {users.length} gebruikers
