@@ -8,7 +8,7 @@ import type { UserRow } from "@/data/users";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { agents } from "@/data/agents";
-import { UserPlus } from "lucide-react";
+import { Trash2, UserPlus } from "lucide-react";
 
 type UserTableProps = {
   users: UserRow[];
@@ -17,17 +17,17 @@ type UserTableProps = {
 export default function UserTable({ users }: UserTableProps) {
   const [isInviteOpen, setIsInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteAgents, setInviteAgents] = useState<string[]>(() =>
-    agents.map((agent) => agent.id)
-  );
+  const [inviteAgents, setInviteAgents] = useState<string[]>([]);
+  const [userToDelete, setUserToDelete] = useState<UserRow | null>(null);
+  const isDeleteOpen = userToDelete !== null;
+  const allAgentsSelected =
+    inviteAgents.length === agents.length && agents.length > 0;
   const columns = useMemo<ColumnDef<UserRow>[]>(
     () => [
       {
         accessorKey: "name",
         header: "Naam",
-        cell: ({ row }) => (
-          <span>{row.original.name}</span>
-        ),
+        cell: ({ row }) => <span>{row.original.name}</span>,
       },
       {
         accessorKey: "email",
@@ -39,8 +39,25 @@ export default function UserTable({ users }: UserTableProps) {
         cell: ({ row }) => row.original.lastActiveLabel,
         sortingFn: "datetime",
       },
+      {
+        id: "actions",
+        header: "",
+        cell: ({ row }) => (
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setUserToDelete(row.original)}
+              aria-label={`Verwijder ${row.original.name}`}
+            >
+              <Trash2 className="size-5" aria-hidden="true" />
+            </Button>
+          </div>
+        ),
+      },
     ],
-    []
+    [],
   );
 
   return (
@@ -74,7 +91,7 @@ export default function UserTable({ users }: UserTableProps) {
                 event.preventDefault();
                 setIsInviteOpen(false);
                 setInviteEmail("");
-                setInviteAgents(agents.map((agent) => agent.id));
+                setInviteAgents([]);
               }}
             >
               <div className="space-y-2">
@@ -84,6 +101,7 @@ export default function UserTable({ users }: UserTableProps) {
                 <Input
                   type="email"
                   placeholder="naam@bedrijf.nl"
+                  className="placeholder:text-zinc-400"
                   value={inviteEmail}
                   onChange={(event) => setInviteEmail(event.target.value)}
                 />
@@ -93,6 +111,22 @@ export default function UserTable({ users }: UserTableProps) {
                   Agenten
                 </span>
                 <div className="space-y-2 rounded-[10px] border border-zinc-200 bg-white p-3">
+                  <label className="flex cursor-pointer items-center gap-2 text-sm font-medium text-zinc-700">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4"
+                      checked={allAgentsSelected}
+                      onChange={(event) => {
+                        setInviteAgents(
+                          event.target.checked
+                            ? agents.map((agent) => agent.id)
+                            : [],
+                        );
+                      }}
+                    />
+                    Selecteer alles
+                  </label>
+                  <div className="h-px bg-zinc-100" />
                   {agents.map((agent) => {
                     const isChecked = inviteAgents.includes(agent.id);
                     return (
@@ -108,7 +142,7 @@ export default function UserTable({ users }: UserTableProps) {
                             setInviteAgents((prev) =>
                               event.target.checked
                                 ? [...prev, agent.id]
-                                : prev.filter((id) => id !== agent.id)
+                                : prev.filter((id) => id !== agent.id),
                             );
                           }}
                         />
@@ -125,7 +159,7 @@ export default function UserTable({ users }: UserTableProps) {
                   onClick={() => {
                     setIsInviteOpen(false);
                     setInviteEmail("");
-                    setInviteAgents(agents.map((agent) => agent.id));
+                    setInviteAgents([]);
                   }}
                 >
                   Annuleren
@@ -135,6 +169,40 @@ export default function UserTable({ users }: UserTableProps) {
                 </Button>
               </div>
             </form>
+          </div>
+        </div>
+      ) : null}
+      {isDeleteOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-xl">
+            <div className="space-y-1">
+              <h2 className="text-lg font-semibold text-zinc-900">
+                Gebruiker verwijderen
+              </h2>
+              <p className="text-sm text-zinc-500">
+                Weet je zeker dat je{" "}
+                <span className="font-semibold text-zinc-900">
+                  {userToDelete?.name}
+                </span>{" "}
+                wilt verwijderen?
+              </p>
+            </div>
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setUserToDelete(null)}
+              >
+                Annuleren
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => setUserToDelete(null)}
+              >
+                Verwijderen
+              </Button>
+            </div>
           </div>
         </div>
       ) : null}
