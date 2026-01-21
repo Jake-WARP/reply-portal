@@ -6,7 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { DocumentRow } from "@/data/documents";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
+import { Check, Clock, Eye, Upload } from "lucide-react";
 
 type DocumentTableProps = {
   documents: DocumentRow[];
@@ -49,7 +49,12 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
     []
   );
 
-  const steps = ["Uploaden", "Scannen", "Beoordelen", "Goedgekeurd"];
+  const steps = [
+    { label: "Uploaden", icon: Upload },
+    { label: "Scannen", icon: Eye },
+    { label: "Beoordelen", icon: Clock },
+    { label: "Goedgekeurd", icon: Check },
+  ];
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -107,6 +112,7 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
               type="file"
               className="hidden"
               onChange={handleFileChange}
+              aria-label="Document uploaden"
             />
             <Button
               type="button"
@@ -120,31 +126,48 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
         }
       />
       {isProcessing && (
-        <div className="fixed bottom-6 left-6 z-50 w-[320px] rounded-lg border border-zinc-200 bg-white p-4 shadow-lg">
-          <p className="text-sm font-semibold text-zinc-900">
+        <div className="fixed bottom-6 left-6 z-50 w-[340px] rounded-xl border border-zinc-200 bg-white p-5 shadow-lg">
+          <p className="text-sm text-zinc-500">Verwerken van document(en)</p>
+          <p className="mt-1 text-sm font-semibold text-zinc-900">
             {currentFile ?? "Nieuw document"}
           </p>
-          <div className="mt-3 space-y-2 text-sm">
-            {steps.map((stepLabel, index) => (
-              <div key={stepLabel} className="flex items-center gap-2">
-                <span
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    index <= activeStep ? "bg-emerald-500" : "bg-zinc-200"
-                  }`}
-                />
-                <span
-                  className={
-                    index <= activeStep ? "text-zinc-900" : "text-zinc-500"
-                  }
-                >
-                  {stepLabel}
-                </span>
-              </div>
-            ))}
+          <div className="mt-4 space-y-3 text-sm">
+            {steps.map((step, index) => {
+              const isDone = index < activeStep;
+              const isActive = index === activeStep;
+              const Icon = step.icon;
+              return (
+                <div key={step.label} className="flex items-center gap-3">
+                  <span
+                    className={`flex h-9 w-9 items-center justify-center rounded-full ${
+                      isDone
+                        ? "bg-emerald-500 text-white"
+                        : isActive
+                        ? "bg-blue-500 text-white"
+                        : "bg-zinc-100 text-zinc-400"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span
+                    className={`flex-1 ${
+                      isDone || isActive ? "text-zinc-900" : "text-zinc-400"
+                    }`}
+                  >
+                    {step.label}
+                  </span>
+                  {isDone ? (
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-500 text-emerald-500">
+                      <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
-          <div className="mt-3 h-1.5 w-full rounded-full bg-zinc-100">
+          <div className="mt-4 h-2 w-full rounded-full bg-zinc-100">
             <div
-              className="h-full rounded-full bg-emerald-500 transition-all"
+              className="h-full rounded-full bg-blue-500 transition-all"
               style={{
                 width: `${((activeStep + 1) / steps.length) * 100}%`,
               }}

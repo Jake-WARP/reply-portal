@@ -46,7 +46,7 @@ export default function AgentDropdown({
         aria-label="Selecteer agent"
         value={currentAgent}
         onChange={handleChange}
-        className="rounded border border-zinc-200 bg-white px-3 py-2 font-semibold text-zinc-900  transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400/30"
+        className="rounded-none border border-zinc-200 bg-white px-3 py-2 font-semibold text-zinc-900  transition focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400/30"
       >
         {agents.map((agent) => (
           <option key={agent.id} value={agent.id}>

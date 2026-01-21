@@ -64,12 +64,12 @@ export default function DataTable<TData, TValue>({
             value={globalFilter ?? ""}
             onChange={(event) => setGlobalFilter(event.target.value)}
             placeholder={searchPlaceholder}
-            className="h-10 w-full rounded-[10px] border border-zinc-200 bg-[#F1F1F1] pl-9 pr-4"
+            className="h-10 w-full rounded-none border border-zinc-200 bg-[#F1F1F1] pl-9 pr-4"
           />
         </div>
         {toolbarContent ? <div>{toolbarContent}</div> : null}
       </div>
-      <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-hidden rounded-none border border-zinc-200 bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

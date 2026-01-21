@@ -76,7 +76,7 @@ export default function UserTable({ users }: UserTableProps) {
       />
       {isInviteOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md border border-zinc-200 bg-white p-6 shadow-xl">
             <div className="space-y-1">
               <h2 className="text-lg font-semibold text-zinc-900">
                 Gebruiker uitnodigen
@@ -110,11 +110,11 @@ export default function UserTable({ users }: UserTableProps) {
                 <span className="text-sm font-medium text-zinc-700">
                   Agenten
                 </span>
-                <div className="space-y-2 rounded-[10px] border border-zinc-200 bg-white p-3">
+                <div className="space-y-2 border border-zinc-200 bg-white p-3">
                   <label className="flex cursor-pointer items-center gap-2 text-sm font-medium text-zinc-700">
                     <input
                       type="checkbox"
-                      className="h-4 w-4"
+                      className="h-4 w-4 bg-background"
                       checked={allAgentsSelected}
                       onChange={(event) => {
                         setInviteAgents(

@@ -18,7 +18,7 @@ export default function AgentNav({ currentAgent, pageLinks }: AgentNavProps) {
   const activeSlug = segment ?? "dashboard";
 
   return (
-    <nav className="flex self-stretch items-stretch gap-4 text-sm font-semibold text-zinc-700">
+    <nav className="flex self-stretch items-stretch gap-4 text-sm font-semibold text-primary-foreground">
       {pageLinks.map((page) => {
         const isActive = page.slug === activeSlug;
 
@@ -27,9 +27,9 @@ export default function AgentNav({ currentAgent, pageLinks }: AgentNavProps) {
             key={page.slug}
             href={`/${currentAgent}/${page.slug}`}
             aria-current={isActive ? "page" : undefined}
-            className={`flex items-center border-b-2 px-2 transition ${
+            className={`flex items-center border-b-2 transition ${
               isActive
-                ? "border-zinc-900 text-zinc-950"
+                ? "border-primary text-primary"
                 : "border-transparent text-zinc-500 hover:text-zinc-900 focus-visible:text-zinc-900"
             }`}
           >

@@ -102,7 +102,7 @@ export default function DashboardCharts({
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
-        <div className="mt-3 flex items-center gap-6 text-sm text-zinc-600">
+        <div className="mt-3 flex items-center gap-6 px-4 pb-4 text-sm text-zinc-600">
             <span className="inline-flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-red-500" />
               CPU %
