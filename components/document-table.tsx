@@ -55,6 +55,7 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
     { label: "Beoordelen", icon: Clock },
     { label: "Goedgekeurd", icon: Check },
   ];
+  const progressWidths = ["w-1/4", "w-1/2", "w-3/4", "w-full"];
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -79,7 +80,7 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
             id: `upload-${now.getTime()}`,
             title: file.name,
             status: "Actief",
-            owner: "Jake Doe",
+            owner: "John Doe",
             lastUpdatedLabel: "Zojuist",
             lastUpdatedRaw: now.toISOString(),
           },
@@ -167,10 +168,9 @@ export default function DocumentTable({ documents }: DocumentTableProps) {
           </div>
           <div className="mt-4 h-2 w-full rounded-full bg-zinc-100">
             <div
-              className="h-full rounded-full bg-blue-500 transition-all"
-              style={{
-                width: `${((activeStep + 1) / steps.length) * 100}%`,
-              }}
+              className={`h-full rounded-full bg-blue-500 transition-all ${
+                progressWidths[Math.min(activeStep, progressWidths.length - 1)]
+              }`}
             />
           </div>
         </div>
